@@ -1,0 +1,153 @@
+[gd_scene format=3 uid="uid://bv35xih2ylybd"]
+
+[ext_resource type="PackedScene" uid="uid://b5rq1krxng76d" path="res://draggables/cazo.tscn" id="1_4j8f0"]
+[ext_resource type="PackedScene" uid="uid://dg5wiq746u3yr" path="res://draggables/tamper.tscn" id="1_ok7t0"]
+[ext_resource type="PackedScene" uid="uid://cbgk35p01dj08" path="res://stations/molinillo.tscn" id="2_v763p"]
+[ext_resource type="PackedScene" uid="uid://cfbrx66dixp8b" path="res://draggables/taza.tscn" id="4_sqyti"]
+[ext_resource type="PackedScene" uid="uid://dmr305k6yoess" path="res://stations/cafetera.tscn" id="5_j1ij6"]
+
+[sub_resource type="GDScript" id="GDScript_4j8f0"]
+script/source = "extends Node2D
+
+
+@onready var kitchen_viewport : SubViewport = $Kitchen
+@onready var kitchen_texture : TextureRect = $KitchenTexture
+@onready var counter_viewport : SubViewport = $Counter
+@onready var counter_texture : TextureRect = $CounterTexture
+func _ready() -> void:
+	Main.connect('object_placed',object_placed)
+func object_placed(pos,object : Node):
+	if object.has_method('update_area'):
+		object.update_area()
+	var objective_positions : Array
+	var resized_positions : Array[Rect2]
+	if object == $Kitchen/Cazo:
+		objective_positions = [$Kitchen/MolinilloCafe,$Kitchen/Cafetera]
+	elif object == $Kitchen/Tamper:
+		objective_positions = [$Kitchen/Cazo]
+	elif object.is_in_group('Envases'):
+		objective_positions = [$Kitchen/Cafetera]
+	
+	for area : Node in objective_positions:
+		resized_positions.append(Rect2(
+			area.position/kitchen_texture.get_rect().size + kitchen_texture.global_position,
+			area.area.size/get_viewport().get_visible_rect().size*kitchen_texture.get_rect().size))
+	if !objective_positions.is_empty():
+		for posi : Node in objective_positions:
+			if posi.area.has_point(pos):
+				location_reached(object,posi)
+				print(object.name,' llevado a ',posi.name)
+				return
+		object.return_to_og_location()
+		print(object.name,' soltado')
+	else:
+		object.return_to_og_location()
+		print(object.name,' soltado')
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouse:
+		var mouse_pos = kitchen_texture.get_local_mouse_position()
+		var viewport_pos : Vector2 = mouse_pos * (
+		Vector2(kitchen_viewport.size) / kitchen_texture.size)
+		var new_event := event.duplicate()
+		new_event.position = viewport_pos + kitchen_texture.position/kitchen_texture.get_rect().size
+		kitchen_viewport.push_input(new_event)
+		
+		var mouse_pos_counter = counter_texture.get_local_mouse_position()
+		var viewport_counter : Vector2 = mouse_pos_counter * (
+		Vector2(counter_viewport.size) / counter_texture.size)
+		var new_event_counter := event.duplicate()
+		new_event_counter.position = viewport_counter + counter_texture.position/counter_texture.get_rect().size
+		counter_viewport.push_input(new_event_counter)
+
+func location_reached(object,destination):
+	object.use(destination)
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_v763p"]
+viewport_path = NodePath("Kitchen")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_sqyti"]
+viewport_path = NodePath("Counter")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1ij6"]
+size = Vector2(1149, 10)
+
+[node name="Node2D" type="Node2D" unique_id=683136695]
+script = SubResource("GDScript_4j8f0")
+
+[node name="KitchenTexture" type="TextureRect" parent="." unique_id=984185826]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 32.0
+offset_right = 576.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_v763p")
+expand_mode = 1
+
+[node name="CounterTexture" type="TextureRect" parent="." unique_id=764550995]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 576.0
+offset_top = 32.0
+offset_right = 1152.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_sqyti")
+expand_mode = 1
+
+[node name="Kitchen" type="SubViewport" parent="." unique_id=902190118]
+size = Vector2i(1152, 1152)
+
+[node name="Tamper" parent="Kitchen" unique_id=1257647822 node_paths=PackedStringArray("viewport") instance=ExtResource("1_ok7t0")]
+position = Vector2(850, 800)
+viewport = NodePath("../../KitchenTexture")
+
+[node name="MolinilloCafe" parent="Kitchen" unique_id=188922893 instance=ExtResource("2_v763p")]
+position = Vector2(500, 250)
+
+[node name="Cazo" parent="Kitchen" unique_id=1558461374 node_paths=PackedStringArray("viewport") instance=ExtResource("1_4j8f0")]
+position = Vector2(400, 400)
+viewport = NodePath("../../KitchenTexture")
+
+[node name="Taza" parent="Kitchen" unique_id=529097215 node_paths=PackedStringArray("viewport") instance=ExtResource("4_sqyti")]
+position = Vector2(300, 800)
+viewport = NodePath("../../KitchenTexture")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Kitchen" unique_id=1013574419]
+position = Vector2(0, 350)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/StaticBody2D" unique_id=1165351799]
+position = Vector2(577.5, 516)
+shape = SubResource("RectangleShape2D_j1ij6")
+one_way_collision = true
+one_way_collision_margin = 5.0
+
+[node name="Cafetera" parent="Kitchen" unique_id=1165744577 groups=["Envases"] instance=ExtResource("5_j1ij6")]
+position = Vector2(576, 770)
+
+[node name="Counter" type="SubViewport" parent="." unique_id=1365535634]
+size = Vector2i(1152, 1152)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Counter" unique_id=860807258]
+position = Vector2(0, 350)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter/StaticBody2D" unique_id=1367524234]
+position = Vector2(577.5, 516)
+shape = SubResource("RectangleShape2D_j1ij6")
+one_way_collision = true
+one_way_collision_margin = 5.0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1319782278]
+offset_left = 568.0
+offset_right = 584.0
+offset_bottom = 648.0

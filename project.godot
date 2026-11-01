@@ -11,12 +11,21 @@ config_version=5
 [application]
 
 config/name="Cafe"
+run/main_scene="uid://bv35xih2ylybd"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Main="*uid://up4727fe3qsj"
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[global_group]
+
+Envases=""
 
 [physics]
 

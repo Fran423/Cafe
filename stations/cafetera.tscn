@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dmr305k6yoess"]
+
+[ext_resource type="Script" uid="uid://cuhu53uhiovfk" path="res://stations/cafetera.gd" id="1_7vosp"]
+
+[node name="Cafetera" type="Node2D" unique_id=188922893]
+z_index = -1
+script = ExtResource("1_7vosp")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=929716858]
+offset_left = -160.0
+offset_top = 56.0
+offset_right = 160.0
+offset_bottom = 88.0
+color = Color(0.17641911, 0.17641908, 0.17641908, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1707673651]
+offset_left = -160.0
+offset_top = -472.0
+offset_right = 160.0
+offset_bottom = -272.0
+color = Color(0.17641911, 0.17641908, 0.17641908, 1)
+
+[node name="EnvaseMarca" type="Marker2D" parent="." unique_id=2109329883]
+
+[node name="CazoMarca" type="Marker2D" parent="." unique_id=2033202485]
+position = Vector2(0, -240)
+
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=815897784]
+offset_left = -160.0
+offset_top = -272.0
+offset_right = 160.0
+offset_bottom = 56.0
+color = Color(0, 0, 0, 0.15686275)

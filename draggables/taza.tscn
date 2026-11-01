@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cfbrx66dixp8b"]
+
+[ext_resource type="Script" uid="uid://buo7fjxfupi0x" path="res://draggables/taza.gd" id="1_maad6"]
+[ext_resource type="PackedScene" uid="uid://ry1v8l443o0d" path="res://draggables/dragging_component.tscn" id="2_kj6ig"]
+[ext_resource type="Script" uid="uid://dct1chnyt1ha4" path="res://draggables/object_test.gd" id="3_2ecaw"]
+[ext_resource type="Texture2D" uid="uid://c2or525b0dktm" path="res://icon.svg" id="4_q0d1k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kj6ig"]
+size = Vector2(80, 128)
+
+[node name="Taza" type="CharacterBody2D" unique_id=529097215 groups=["Envases"]]
+modulate = Color(0, 1, 1, 1)
+script = ExtResource("1_maad6")
+
+[node name="DraggingComponent" parent="." unique_id=1093383295 node_paths=PackedStringArray("parent", "sprite", "drag_area_polygon") instance=ExtResource("2_kj6ig")]
+parent_script = ExtResource("3_2ecaw")
+parent = NodePath("..")
+delay = 5.0
+tp_on_wrong_drop = true
+sprite = NodePath("../Sprite")
+drag_area_polygon = NodePath("../DragPolygon")
+buyable = true
+
+[node name="DragPolygon" type="Polygon2D" parent="." unique_id=261610612]
+color = Color(1, 1, 1, 0)
+texture = ExtResource("4_q0d1k")
+polygon = PackedVector2Array(58, -64, -58, -64, -63.8, -58, -64, 58.199997, -62, 60.699997, -62, 62.1, -58.9, 64, 57.6, 64, 63.9, 57, 64, -58.2, 62, -60.7, 62, -62.4)
+uv = PackedVector2Array(122, 0, 6, 0, 0.2, 6, 0, 122.2, 2, 124.7, 2, 126.1, 5.1, 128, 121.6, 128, 127.9, 121, 128, 5.8, 126, 3.3, 126, 1.6)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1856420263]
+texture = ExtResource("4_q0d1k")
+
+[node name="PlaceRect" type="ColorRect" parent="." unique_id=1007639459]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(1, 1, 1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=333797283]
+shape = SubResource("RectangleShape2D_kj6ig")

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dg5wiq746u3yr"]
+
+[ext_resource type="Script" uid="uid://c2hk0iq8kn2ux" path="res://draggables/tamper.gd" id="1_vxkcb"]
+[ext_resource type="PackedScene" uid="uid://ry1v8l443o0d" path="res://draggables/dragging_component.tscn" id="2_s7i33"]
+[ext_resource type="Texture2D" uid="uid://c2or525b0dktm" path="res://icon.svg" id="4_m54pd"]
+
+[node name="Tamper" type="Node2D" unique_id=1257647822]
+script = ExtResource("1_vxkcb")
+
+[node name="DraggingComponent" parent="." unique_id=1093383295 node_paths=PackedStringArray("parent", "sprite", "drag_area_polygon") instance=ExtResource("2_s7i33")]
+parent_script = ExtResource("1_vxkcb")
+parent = NodePath("..")
+delay = 5.0
+tp_on_wrong_drop = true
+sprite = NodePath("../Sprite")
+drag_area_polygon = NodePath("../DragPolygon")
+
+[node name="DragPolygon" type="Polygon2D" parent="." unique_id=261610612]
+color = Color(1, 1, 1, 0)
+texture = ExtResource("4_m54pd")
+polygon = PackedVector2Array(58, -64, -58, -64, -63.8, -58, -64, 58.199997, -62, 60.699997, -62, 62.1, -58.9, 64, 57.6, 64, 63.9, 57, 64, -58.2, 62, -60.7, 62, -62.4)
+uv = PackedVector2Array(122, 0, 6, 0, 0.2, 6, 0, 122.2, 2, 124.7, 2, 126.1, 5.1, 128, 121.6, 128, 127.9, 121, 128, 5.8, 126, 3.3, 126, 1.6)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1856420263]
+modulate = Color(0.5409905, 0.5409905, 0.5409905, 1)
+texture = ExtResource("4_m54pd")
