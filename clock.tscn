@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bnohr47m3bs8g"]
+
+[ext_resource type="Texture2D" uid="uid://ycaeiwdfvlou" path="res://clock.png" id="1_venu5"]
+[ext_resource type="Script" uid="uid://cdu7v7jyxy8s3" path="res://clock.gd" id="2_kig64"]
+
+[node name="Clock" type="Sprite2D" unique_id=929385323]
+visible = false
+scale = Vector2(2, 2)
+texture = ExtResource("1_venu5")
+script = ExtResource("2_kig64")
+
+[node name="Segundero" type="Line2D" parent="." unique_id=457026924]
+points = PackedVector2Array(0, 0, 0, -52)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+end_cap_mode = 1
+
+[node name="Minutero" type="Line2D" parent="." unique_id=2100152635]
+points = PackedVector2Array(0, 0, 0, -28)
+width = 6.0
+default_color = Color(0, 0, 0, 1)
+end_cap_mode = 1
+
+[node name="Label" type="Label" parent="." unique_id=666724340]
+offset_left = -48.0
+offset_top = 68.0
+offset_right = 48.0
+offset_bottom = 113.0
+theme_override_font_sizes/font_size = 32
+text = "12:00"
+horizontal_alignment = 1

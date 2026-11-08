@@ -7,7 +7,15 @@ z_index = -1
 script = ExtResource("1_6a4ke")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=929716858]
-offset_left = -32.0
+offset_left = -72.0
 offset_top = -328.0
-offset_right = 32.0
+offset_right = 72.0
 offset_bottom = 48.0
+color = Color(0.46673077, 0.2050775, 0.01586818, 1)
+
+[node name="Label" type="Label" parent="." unique_id=426310818]
+offset_left = -24.0
+offset_top = -32.0
+offset_right = 30.0
+offset_bottom = -9.0
+text = "coffee"

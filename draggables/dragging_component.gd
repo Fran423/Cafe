@@ -8,17 +8,19 @@ extends Node2D
 @export var sprite : Node2D
 @export var drag_area_polygon : Polygon2D
 @export var buyable : bool
-@onready var current_viewport : Node = parent.viewport
-@onready var bounds : Vector2 = Vector2(get_tree().current_scene.get_node(current_viewport.texture.viewport_path).size)
+@onready var current_viewport : Node
+var bounds : Vector2
 const return_delay : float = 10
 var draggable : bool = true
 var drag_area : PackedVector2Array
 var is_dragged : bool = false
 
 signal dropped
-
+signal grabbed
 func _ready() -> void:
-	print(bounds)
+	await get_tree().process_frame
+	current_viewport = parent.viewport
+	bounds = Vector2(get_tree().current_scene.get_node(current_viewport.texture.viewport_path).size)
 	for point : Vector2 in drag_area_polygon.polygon:
 		drag_area.append(point)
 
@@ -42,8 +44,7 @@ func release(pos):
 		parent.scale = Vector2(1,1)
 	parent.position = pos
 	Main.object_placed.emit(pos,parent)
-	print(Rect2(Vector2.ZERO,bounds))
-	print(global_position-bounds)
+	dropped.emit()
 	if !Rect2(Vector2.ZERO,bounds).has_point(global_position):
 		if parent.has_method('failsafe'):
 			parent.failsafe()
@@ -52,6 +53,7 @@ func release(pos):
 
 
 func begin_drag():
+	grabbed.emit()
 	if buyable:
 		parent.reparent(get_tree().current_scene,true)
 		parent.scale = current_viewport.size / Vector2(

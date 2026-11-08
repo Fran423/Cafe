@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Main="*uid://up4727fe3qsj"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
@@ -26,6 +30,7 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 [global_group]
 
 Envases=""
+Extras=""
 
 [physics]
 
@@ -33,5 +38,6 @@ Envases=""
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"

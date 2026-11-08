@@ -2,15 +2,16 @@ extends CharacterBody2D
 
 @onready var dragging_component = $DraggingComponent
 @onready var area : Rect2 = Rect2($PlaceRect.get_rect().position+global_position,$PlaceRect.get_rect().size)
-@export var viewport : Node
+@onready var viewport : Node = get_tree().current_scene.kitchen_texture
 var falling : bool = false
-@onready var original_pos : Vector2 = global_position
+var original_pos : Vector2
 var coffee : Dictionary = {
 	'coffee' = [],
-	'compressions' = 0,
-	'extras' = []
+	'type' = [],
+	'extras' = [],
+	'ice' = false
 }
-
+signal original_position_changed
 func _physics_process(delta: float) -> void:
 	if !is_on_floor():
 		if falling:
@@ -19,6 +20,17 @@ func _physics_process(delta: float) -> void:
 		failsafe()
 	move_and_slide()
 
+func change_pos(pos):
+	original_position_changed.emit()
+	original_pos = pos
+	$DraggingComponent.original_location = original_pos
+
+func place(object):
+	if object.name == 'Hielo':
+		if !coffee['extras'].has('ice'):
+			coffee['extras'].append('ice')
+		object.return_to_og_location()
+
 func failsafe():
 	global_position = get_tree().current_scene.get_node(viewport.texture.viewport_path).size/2
 	velocity.y = 0
@@ -26,7 +38,8 @@ func failsafe():
 func update_area():
 	area = Rect2($PlaceRect.get_rect().position+global_position,$PlaceRect.get_rect().size)
 func _ready() -> void:
-	dragging_component.original_location = global_position
+	$Label.text = coffee['type']
+	dragging_component.original_location = original_pos
 	
 func return_to_og_location():
 	if viewport == get_tree().current_scene.counter_texture:
@@ -42,4 +55,11 @@ func return_to_og_location():
 	velocity.y = 0
 
 func use(destination : Node):
-	pass
+	if destination.is_in_group('Extras'):
+		if destination.extra not in coffee['extras']:
+			coffee['extras'].append(destination.extra)
+			await get_tree().create_timer(0.5,false).timeout
+		return_to_og_location()
+	elif destination.name == 'Trash':
+		change_pos(Vector2.ZERO)
+		queue_free()

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://t7dy7caaiqh8"]
+
+[ext_resource type="Script" uid="uid://ook7f61qb15l" path="res://trash.gd" id="1_avkd5"]
+
+[node name="Trash" type="Node2D" unique_id=984570164]
+script = ExtResource("1_avkd5")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=724043050]
+offset_left = -136.0
+offset_right = 136.0
+offset_bottom = 208.0
+color = Color(0.12225223, 0.12225223, 0.12225223, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1224023848]
+offset_left = -16.0
+offset_top = 32.0
+offset_right = 25.0
+offset_bottom = 55.0
+text = "trash"

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dquqbsdbllqsq"]
+
+[ext_resource type="Script" uid="uid://dp663iah0br1t" path="res://extra_dropper.gd" id="1_06w6y"]
+
+[node name="ExtraDropper" type="Node2D" unique_id=1510306549]
+script = ExtResource("1_06w6y")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=342876036]
+offset_left = -56.0
+offset_top = -176.0
+offset_right = 56.0
+color = Color(0.43529412, 0, 0.39215687, 1)
+
+[node name="Label" type="Label" parent="." unique_id=2093389425]
+offset_left = -56.0
+offset_top = -40.0
+offset_right = 56.0
+offset_bottom = -17.0
+text = "hi"
+horizontal_alignment = 1

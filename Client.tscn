@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dvbhlfhtm5nug"]
+
+[ext_resource type="Script" uid="uid://bilxjjyrb8r7s" path="res://client.gd" id="1_dsyj5"]
+
+[node name="Costumer" type="Node2D" unique_id=584681569]
+script = ExtResource("1_dsyj5")
+
+[node name="Button" type="Button" parent="." unique_id=698477952]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="Button" unique_id=718390551]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 128.0
+offset_right = 120.0
+offset_bottom = 151.0
+text = "100%"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Button" unique_id=1969662901]
+layout_mode = 0
+offset_left = -128.0
+offset_top = -40.0
+offset_right = 256.0
+offset_bottom = -17.0
+text = "normal coffee, cup, no extras, with ice"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://c2or525b0dktm" path="res://icon.svg" id="4_p2giy"]
 
 [node name="Cazo" type="Node2D" unique_id=1257647822]
-modulate = Color(0.40141916, 0.19709036, 9.62615e-08, 1)
 script = ExtResource("1_jqlur")
 
 [node name="DraggingComponent" parent="." unique_id=1093383295 node_paths=PackedStringArray("parent", "sprite", "drag_area_polygon") instance=ExtResource("2_jgq7c")]
@@ -33,3 +32,10 @@ offset_top = -64.0
 offset_right = 64.0
 offset_bottom = 64.0
 color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="." unique_id=1071851625]
+offset_left = -24.0
+offset_top = -88.0
+offset_right = 30.0
+offset_bottom = -65.0
+text = "filter"

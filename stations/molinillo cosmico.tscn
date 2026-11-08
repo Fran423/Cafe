@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c0i1ykdu8755a"]
+
+[ext_resource type="Script" uid="uid://dgtkt0xvurysp" path="res://stations/molinillo.gd" id="1_eey3b"]
+
+[node name="MolinilloCosmico" type="Node2D" unique_id=188922893]
+z_index = -1
+script = ExtResource("1_eey3b")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=929716858]
+offset_left = -72.0
+offset_top = -328.0
+offset_right = 72.0
+offset_bottom = 48.0
+color = Color(0, 0, 0.7294118, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1715368694]
+offset_left = -24.0
+offset_top = -32.0
+offset_right = 30.0
+offset_bottom = -9.0
+text = "cosmic"

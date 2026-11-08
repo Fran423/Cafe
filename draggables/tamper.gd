@@ -13,7 +13,7 @@ func return_to_og_location():
 
 func use(destination : Node):
 	if destination.name == 'Cazo':
-		if destination.coffee != 'none':
+		if !destination.coffee.is_empty():
 			destination.compress()
 			var tween = create_tween()
 			tween.tween_property(self,'position',destination.global_position,0.1)

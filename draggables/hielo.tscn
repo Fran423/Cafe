@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bheqai0xd66gq"]
+
+[ext_resource type="Script" uid="uid://grq4587mxpc0" path="res://draggables/hielo.gd" id="1_fxx7j"]
+[ext_resource type="PackedScene" uid="uid://ry1v8l443o0d" path="res://draggables/dragging_component.tscn" id="2_3flti"]
+[ext_resource type="Script" uid="uid://dct1chnyt1ha4" path="res://draggables/object_test.gd" id="3_yubf2"]
+[ext_resource type="Texture2D" uid="uid://c2or525b0dktm" path="res://icon.svg" id="4_07cpw"]
+
+[node name="Hielo" type="Node2D" unique_id=1257647822 node_paths=PackedStringArray("congelador")]
+script = ExtResource("1_fxx7j")
+congelador = NodePath("Congelador")
+
+[node name="DraggingComponent" parent="." unique_id=1093383295 node_paths=PackedStringArray("parent", "sprite", "drag_area_polygon") instance=ExtResource("2_3flti")]
+parent_script = ExtResource("3_yubf2")
+parent = NodePath("..")
+tp_on_wrong_drop = true
+sprite = NodePath("../Sprite")
+drag_area_polygon = NodePath("../Polygon2D")
+
+[node name="Congelador" type="Sprite2D" parent="." unique_id=1892175548]
+modulate = Color(0, 0, 0, 1)
+top_level = true
+position = Vector2(0, -1.4305115e-06)
+scale = Vector2(3, 3)
+texture = ExtResource("4_07cpw")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1856420263]
+visible = false
+z_index = 1
+texture = ExtResource("4_07cpw")
+
+[node name="PlaceRect" type="ColorRect" parent="." unique_id=1007639459]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(1, 1, 1, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1918262377]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-192, 192, -192, -192, 192, -192, 192, 192)
+
+[node name="Label" type="Label" parent="." unique_id=1323331381]
+z_index = 1
+offset_left = -16.0
+offset_top = -128.0
+offset_right = 24.0
+offset_bottom = -105.0
+text = "ice"
+horizontal_alignment = 1

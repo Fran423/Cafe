@@ -3,7 +3,7 @@ extends Node2D
 @onready var dragging_component = $DraggingComponent
 @onready var area : Rect2 = Rect2($PlaceRect.get_rect().position+global_position,$PlaceRect.get_rect().size)
 @export var viewport : Node
-var coffee : String = 'none'
+var coffee : String
 var compressed : int = 0
 
 func update_area():
@@ -22,7 +22,7 @@ func compress():
 
 func use(destination : Node):
 	$Sprite.scale = Vector2(1,1)
-	if destination.name == 'MolinilloCafe':
+	if destination.name == 'MolinilloCafe' and coffee != 'normal':
 		coffee = 'normal'
 		var tween = create_tween()
 		tween.tween_property(self,'position',destination.global_position,0.2)
@@ -31,4 +31,4 @@ func use(destination : Node):
 		var tween = create_tween()
 		tween.tween_property(self,'position',destination.global_position,0.2)
 	elif destination.name == 'Cafetera':
-		destination.add(coffee,compressed)
+		destination.add(coffee)

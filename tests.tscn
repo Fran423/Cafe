@@ -3,8 +3,16 @@
 [ext_resource type="PackedScene" uid="uid://b5rq1krxng76d" path="res://draggables/cazo.tscn" id="1_4j8f0"]
 [ext_resource type="PackedScene" uid="uid://dg5wiq746u3yr" path="res://draggables/tamper.tscn" id="1_ok7t0"]
 [ext_resource type="PackedScene" uid="uid://cbgk35p01dj08" path="res://stations/molinillo.tscn" id="2_v763p"]
+[ext_resource type="PackedScene" uid="uid://c0i1ykdu8755a" path="res://stations/molinillo cosmico.tscn" id="3_110u0"]
 [ext_resource type="PackedScene" uid="uid://cfbrx66dixp8b" path="res://draggables/taza.tscn" id="4_sqyti"]
 [ext_resource type="PackedScene" uid="uid://dmr305k6yoess" path="res://stations/cafetera.tscn" id="5_j1ij6"]
+[ext_resource type="PackedScene" uid="uid://bheqai0xd66gq" path="res://draggables/hielo.tscn" id="6_2v7ho"]
+[ext_resource type="PackedScene" uid="uid://b7y28tqoxgsnl" path="res://envase_spawner.tscn" id="6_rd15y"]
+[ext_resource type="PackedScene" uid="uid://dvbhlfhtm5nug" path="res://Client.tscn" id="7_lx47b"]
+[ext_resource type="PackedScene" uid="uid://dquqbsdbllqsq" path="res://extra_dropper.tscn" id="9_bg1y3"]
+[ext_resource type="PackedScene" uid="uid://t7dy7caaiqh8" path="res://trash.tscn" id="10_rf8h8"]
+[ext_resource type="PackedScene" uid="uid://bnohr47m3bs8g" path="res://clock.tscn" id="11_nc8pb"]
+[ext_resource type="Script" uid="uid://cdu7v7jyxy8s3" path="res://clock.gd" id="12_n1s4m"]
 
 [sub_resource type="GDScript" id="GDScript_4j8f0"]
 script/source = "extends Node2D
@@ -14,6 +22,16 @@ script/source = "extends Node2D
 @onready var kitchen_texture : TextureRect = $KitchenTexture
 @onready var counter_viewport : SubViewport = $Counter
 @onready var counter_texture : TextureRect = $CounterTexture
+var closing_time : float = 480
+var actual_time : float = 0
+var time_passing_stoppers : int
+var deliveries_on_counter : Array[Node]
+
+func _process(delta: float) -> void:
+	if time_passing_stoppers <= 0:
+		actual_time += delta
+		$Kitchen/Clock.update_clock(actual_time)
+
 func _ready() -> void:
 	Main.connect('object_placed',object_placed)
 func object_placed(pos,object : Node):
@@ -22,11 +40,16 @@ func object_placed(pos,object : Node):
 	var objective_positions : Array
 	var resized_positions : Array[Rect2]
 	if object == $Kitchen/Cazo:
-		objective_positions = [$Kitchen/MolinilloCafe,$Kitchen/Cafetera]
+		objective_positions = [$Kitchen/MolinilloCafe,$Kitchen/MolinilloCosmico,$Kitchen/Cafetera]
 	elif object == $Kitchen/Tamper:
 		objective_positions = [$Kitchen/Cazo]
-	elif object.is_in_group('Envases'):
-		objective_positions = [$Kitchen/Cafetera]
+	elif object.is_in_group('Envases') and object.get_parent() == kitchen_viewport:
+		objective_positions = [$Kitchen/Cafetera,$Kitchen/Vainilla,$Kitchen/Jengibre,$Kitchen/Pimienta,$Kitchen/Alcohol,$Kitchen/Trash]
+	elif object == $Kitchen/Hielo:
+		objective_positions = []
+		for i in kitchen_viewport.get_children():
+			if i.is_in_group('Envases'):
+				objective_positions.append(i)
 	
 	for area : Node in objective_positions:
 		resized_positions.append(Rect2(
@@ -43,6 +66,8 @@ func object_placed(pos,object : Node):
 	else:
 		object.return_to_og_location()
 		print(object.name,' soltado')
+
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouse:
@@ -61,7 +86,31 @@ func _input(event: InputEvent) -> void:
 		counter_viewport.push_input(new_event_counter)
 
 func location_reached(object,destination):
-	object.use(destination)
+	if destination.has_method('place'):
+		destination.place(object)
+	if object.has_method('use'):
+		object.use(destination)
+
+
+func _on_counter_child_entered_tree(node: Node) -> void:
+	if node.is_in_group('Envases'):
+		deliveries_on_counter.append(node)
+		print(deliveries_on_counter)
+func _on_counter_child_exiting_tree(node: Node) -> void:
+	if node.is_in_group('Envases') and node in deliveries_on_counter:
+		deliveries_on_counter.erase(node)
+
+
+func deliver_pressed(costumer) -> void:
+	var delivery_dictionaries : Array[Dictionary]
+	for delivery in deliveries_on_counter:
+		delivery_dictionaries.append(delivery.coffee)
+		if delivery.is_in_group('Envases'):
+			print(delivery.coffee)
+			delivery.queue_free()
+			
+	costumer.deliver(delivery_dictionaries)
+	deliveries_on_counter.clear()
 "
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_v763p"]
@@ -106,6 +155,7 @@ texture = SubResource("ViewportTexture_sqyti")
 expand_mode = 1
 
 [node name="Kitchen" type="SubViewport" parent="." unique_id=902190118]
+canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 1152)
 
 [node name="Tamper" parent="Kitchen" unique_id=1257647822 node_paths=PackedStringArray("viewport") instance=ExtResource("1_ok7t0")]
@@ -115,12 +165,11 @@ viewport = NodePath("../../KitchenTexture")
 [node name="MolinilloCafe" parent="Kitchen" unique_id=188922893 instance=ExtResource("2_v763p")]
 position = Vector2(500, 250)
 
+[node name="MolinilloCosmico" parent="Kitchen" unique_id=1948065212 instance=ExtResource("3_110u0")]
+position = Vector2(650, 250)
+
 [node name="Cazo" parent="Kitchen" unique_id=1558461374 node_paths=PackedStringArray("viewport") instance=ExtResource("1_4j8f0")]
 position = Vector2(400, 400)
-viewport = NodePath("../../KitchenTexture")
-
-[node name="Taza" parent="Kitchen" unique_id=529097215 node_paths=PackedStringArray("viewport") instance=ExtResource("4_sqyti")]
-position = Vector2(300, 800)
 viewport = NodePath("../../KitchenTexture")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Kitchen" unique_id=1013574419]
@@ -132,10 +181,53 @@ shape = SubResource("RectangleShape2D_j1ij6")
 one_way_collision = true
 one_way_collision_margin = 5.0
 
-[node name="Cafetera" parent="Kitchen" unique_id=1165744577 groups=["Envases"] instance=ExtResource("5_j1ij6")]
+[node name="Cafetera" parent="Kitchen" unique_id=1165744577 instance=ExtResource("5_j1ij6")]
 position = Vector2(576, 770)
 
+[node name="Hielo" parent="Kitchen" unique_id=721243086 node_paths=PackedStringArray("viewport") instance=ExtResource("6_2v7ho")]
+position = Vector2(200, 1070)
+viewport = NodePath("../../KitchenTexture")
+
+[node name="EnvaseSpawnerTazas" parent="Kitchen" unique_id=1163092649 instance=ExtResource("6_rd15y")]
+position = Vector2(300, 800)
+envase_scene = ExtResource("4_sqyti")
+type = "Cup"
+
+[node name="EnvaseSpawnerVasos" parent="Kitchen" unique_id=494094569 instance=ExtResource("6_rd15y")]
+position = Vector2(150, 800)
+envase_scene = ExtResource("4_sqyti")
+type = "Glass"
+
+[node name="EnvaseSpawnerPapel" parent="Kitchen" unique_id=2018523776 instance=ExtResource("6_rd15y")]
+position = Vector2(1000, 800)
+envase_scene = ExtResource("4_sqyti")
+type = "Takeout"
+
+[node name="Vainilla" parent="Kitchen" unique_id=1510306549 groups=["Extras"] instance=ExtResource("9_bg1y3")]
+position = Vector2(850, 550)
+extra = "Vanilla"
+
+[node name="Jengibre" parent="Kitchen" unique_id=1168023916 groups=["Extras"] instance=ExtResource("9_bg1y3")]
+position = Vector2(1000, 550)
+extra = "Ginger"
+
+[node name="Pimienta" parent="Kitchen" unique_id=328865068 groups=["Extras"] instance=ExtResource("9_bg1y3")]
+position = Vector2(1000, 300)
+extra = "Pepper"
+
+[node name="Alcohol" parent="Kitchen" unique_id=368955226 groups=["Extras"] instance=ExtResource("9_bg1y3")]
+position = Vector2(850, 300)
+extra = "Alcohol"
+
+[node name="Trash" parent="Kitchen" unique_id=984570164 instance=ExtResource("10_rf8h8")]
+position = Vector2(570, 1000)
+
+[node name="Clock" parent="Kitchen" unique_id=929385323 instance=ExtResource("11_nc8pb")]
+position = Vector2(200, 200)
+script = ExtResource("12_n1s4m")
+
 [node name="Counter" type="SubViewport" parent="." unique_id=1365535634]
+canvas_item_default_texture_filter = 0
 size = Vector2i(1152, 1152)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Counter" unique_id=860807258]
@@ -147,7 +239,13 @@ shape = SubResource("RectangleShape2D_j1ij6")
 one_way_collision = true
 one_way_collision_margin = 5.0
 
+[node name="Costumer" parent="Counter" unique_id=584681569 instance=ExtResource("7_lx47b")]
+position = Vector2(576, 600)
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1319782278]
 offset_left = 568.0
 offset_right = 584.0
 offset_bottom = 648.0
+
+[connection signal="child_entered_tree" from="Counter" to="." method="_on_counter_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Counter" to="." method="_on_counter_child_exiting_tree"]

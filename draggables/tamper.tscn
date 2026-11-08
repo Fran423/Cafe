@@ -25,3 +25,10 @@ polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)]
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1856420263]
 modulate = Color(0.5409905, 0.5409905, 0.5409905, 1)
 texture = ExtResource("4_m54pd")
+
+[node name="Label" type="Label" parent="." unique_id=1146462504]
+offset_left = -24.0
+offset_top = -88.0
+offset_right = 30.0
+offset_bottom = -65.0
+text = "tamper"

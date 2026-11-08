@@ -31,3 +31,10 @@ offset_top = -272.0
 offset_right = 160.0
 offset_bottom = 56.0
 color = Color(0, 0, 0, 0.15686275)
+
+[node name="Label" type="Label" parent="." unique_id=1968820629]
+offset_left = -56.0
+offset_top = -120.0
+offset_right = 63.0
+offset_bottom = -97.0
+text = "coffee machine"
