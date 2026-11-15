@@ -21,14 +21,21 @@ func compress():
 	compressed += 1
 
 func use(destination : Node):
-	$Sprite.scale = Vector2(1,1)
-	if destination.name == 'MolinilloCafe' and coffee != 'normal':
-		coffee = 'normal'
-		var tween = create_tween()
-		tween.tween_property(self,'position',destination.global_position,0.2)
-	elif destination.name == 'MolinilloCosmico':
-		coffee = 'cosmico'
-		var tween = create_tween()
-		tween.tween_property(self,'position',destination.global_position,0.2)
-	elif destination.name == 'Cafetera':
-		destination.add(coffee)
+	if destination.name in ['MolinilloCosmico','MolinilloCafe']:
+		if coffee == '':
+			$Sprite.scale = Vector2(1,1)
+			if destination.name == 'MolinilloCafe' and coffee != 'normal':
+				coffee = 'normal'
+			elif destination.name == 'MolinilloCosmico':
+				coffee = 'cosmico'
+			elif destination.name == 'Cafetera':
+				destination.add(coffee)
+		else:
+			return_to_og_location()
+	elif destination.name == 'Trash':
+		if coffee not in [null,'']:
+			coffee = ''
+			get_tree().current_scene.notifier('Emptied!',0,global_position,'Kitchen')
+		else:
+			get_tree().current_scene.notifier('Already empty!',0,global_position,'Kitchen')
+		return_to_og_location()

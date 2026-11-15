@@ -3,6 +3,8 @@ extends Node2D
 @onready var dragging_component = $DraggingComponent
 @export var congelador : Node
 @export var viewport : Node
+var price : float = 5
+
 func _ready() -> void:
 	dragging_component.original_location = global_position
 	congelador.global_position = global_position

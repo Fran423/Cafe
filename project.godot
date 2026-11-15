@@ -15,6 +15,10 @@ run/main_scene="uid://bv35xih2ylybd"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://wl1gjmiml0bm"
+
 [autoload]
 
 Main="*uid://up4727fe3qsj"
@@ -22,6 +26,10 @@ Main="*uid://up4727fe3qsj"
 [display]
 
 window/stretch/mode="viewport"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/Fran/Documents/game.avi"
 
 [editor_plugins]
 

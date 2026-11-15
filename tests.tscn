@@ -7,12 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://cfbrx66dixp8b" path="res://draggables/taza.tscn" id="4_sqyti"]
 [ext_resource type="PackedScene" uid="uid://dmr305k6yoess" path="res://stations/cafetera.tscn" id="5_j1ij6"]
 [ext_resource type="PackedScene" uid="uid://bheqai0xd66gq" path="res://draggables/hielo.tscn" id="6_2v7ho"]
-[ext_resource type="PackedScene" uid="uid://b7y28tqoxgsnl" path="res://envase_spawner.tscn" id="6_rd15y"]
+[ext_resource type="PackedScene" uid="uid://bv53gya5h3gho" path="res://draggables/milk.tscn" id="6_nc8pb"]
+[ext_resource type="PackedScene" uid="uid://b7y28tqoxgsnl" path="res://stations/envase_spawner.tscn" id="6_rd15y"]
 [ext_resource type="PackedScene" uid="uid://dvbhlfhtm5nug" path="res://Client.tscn" id="7_lx47b"]
-[ext_resource type="PackedScene" uid="uid://dquqbsdbllqsq" path="res://extra_dropper.tscn" id="9_bg1y3"]
-[ext_resource type="PackedScene" uid="uid://t7dy7caaiqh8" path="res://trash.tscn" id="10_rf8h8"]
+[ext_resource type="PackedScene" uid="uid://dquqbsdbllqsq" path="res://stations/extra_dropper.tscn" id="9_bg1y3"]
+[ext_resource type="PackedScene" uid="uid://t7dy7caaiqh8" path="res://stations/trash.tscn" id="10_rf8h8"]
 [ext_resource type="PackedScene" uid="uid://bnohr47m3bs8g" path="res://clock.tscn" id="11_nc8pb"]
-[ext_resource type="Script" uid="uid://cdu7v7jyxy8s3" path="res://clock.gd" id="12_n1s4m"]
+[ext_resource type="PackedScene" uid="uid://dgluyh11e8bf2" path="res://dialogue_manager.tscn" id="14_c6tu0"]
+[ext_resource type="PackedScene" uid="uid://c3ubhrw5gq7lx" path="res://manual.tscn" id="14_n1s4m"]
 
 [sub_resource type="GDScript" id="GDScript_4j8f0"]
 script/source = "extends Node2D
@@ -22,6 +24,7 @@ script/source = "extends Node2D
 @onready var kitchen_texture : TextureRect = $KitchenTexture
 @onready var counter_viewport : SubViewport = $Counter
 @onready var counter_texture : TextureRect = $CounterTexture
+@onready var notification_scene : PackedScene = load('uid://d2so5cfrqepcj')
 var closing_time : float = 480
 var actual_time : float = 0
 var time_passing_stoppers : int
@@ -40,12 +43,12 @@ func object_placed(pos,object : Node):
 	var objective_positions : Array
 	var resized_positions : Array[Rect2]
 	if object == $Kitchen/Cazo:
-		objective_positions = [$Kitchen/MolinilloCafe,$Kitchen/MolinilloCosmico,$Kitchen/Cafetera]
+		objective_positions = [$Kitchen/MolinilloCafe,$Kitchen/MolinilloCosmico,$Kitchen/Cafetera,$Kitchen/Trash]
 	elif object == $Kitchen/Tamper:
 		objective_positions = [$Kitchen/Cazo]
 	elif object.is_in_group('Envases') and object.get_parent() == kitchen_viewport:
 		objective_positions = [$Kitchen/Cafetera,$Kitchen/Vainilla,$Kitchen/Jengibre,$Kitchen/Pimienta,$Kitchen/Alcohol,$Kitchen/Trash]
-	elif object == $Kitchen/Hielo:
+	elif object in [$Kitchen/Hielo,$Kitchen/Milk]:
 		objective_positions = []
 		for i in kitchen_viewport.get_children():
 			if i.is_in_group('Envases'):
@@ -91,6 +94,29 @@ func location_reached(object,destination):
 	if object.has_method('use'):
 		object.use(destination)
 
+func notifier(text : String,transaction : int,pos : Vector2,viewport : String):
+	var notif = notification_scene.instantiate()
+	if viewport == 'Kitchen':
+		notif.global_position = (pos + kitchen_texture.position)*(kitchen_texture.get_rect().size/Vector2(kitchen_viewport.size))
+	elif viewport == 'Counter':
+		notif.global_position = pos + counter_texture.position/counter_texture.get_rect().size
+	
+	if transaction > 0:
+		notif.text = str('+$','%.2f'%float(text))
+		Main.current_money += float(text)
+		notif.modulate = Color(0.28, 1.0, 0.255, 1.0)
+		update_money()
+	elif transaction < 0:
+		notif.text = str('-$','%.2f'%float(text))
+		notif.modulate = Color(0.973, 0.0, 0.176, 1.0)
+		Main.current_money -= float(text)
+		update_money()
+	else:
+		notif.text = text
+	add_child(notif)
+
+func update_money():
+	$Money.text = str('$','%.2f'%Main.current_money)
 
 func _on_counter_child_entered_tree(node: Node) -> void:
 	if node.is_in_group('Envases'):
@@ -111,6 +137,10 @@ func deliver_pressed(costumer) -> void:
 			
 	costumer.deliver(delivery_dictionaries)
 	deliveries_on_counter.clear()
+
+
+func _on_manual_pressed() -> void:
+	$Manual.appear()
 "
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_v763p"]
@@ -184,6 +214,10 @@ one_way_collision_margin = 5.0
 [node name="Cafetera" parent="Kitchen" unique_id=1165744577 instance=ExtResource("5_j1ij6")]
 position = Vector2(576, 770)
 
+[node name="Milk" parent="Kitchen" unique_id=1837689131 node_paths=PackedStringArray("viewport") instance=ExtResource("6_nc8pb")]
+position = Vector2(1000, 800)
+viewport = NodePath("../../KitchenTexture")
+
 [node name="Hielo" parent="Kitchen" unique_id=721243086 node_paths=PackedStringArray("viewport") instance=ExtResource("6_2v7ho")]
 position = Vector2(200, 1070)
 viewport = NodePath("../../KitchenTexture")
@@ -196,16 +230,12 @@ type = "Cup"
 [node name="EnvaseSpawnerVasos" parent="Kitchen" unique_id=494094569 instance=ExtResource("6_rd15y")]
 position = Vector2(150, 800)
 envase_scene = ExtResource("4_sqyti")
-type = "Glass"
-
-[node name="EnvaseSpawnerPapel" parent="Kitchen" unique_id=2018523776 instance=ExtResource("6_rd15y")]
-position = Vector2(1000, 800)
-envase_scene = ExtResource("4_sqyti")
 type = "Takeout"
 
 [node name="Vainilla" parent="Kitchen" unique_id=1510306549 groups=["Extras"] instance=ExtResource("9_bg1y3")]
 position = Vector2(850, 550)
 extra = "Vanilla"
+price = 20.0
 
 [node name="Jengibre" parent="Kitchen" unique_id=1168023916 groups=["Extras"] instance=ExtResource("9_bg1y3")]
 position = Vector2(1000, 550)
@@ -220,11 +250,11 @@ position = Vector2(850, 300)
 extra = "Alcohol"
 
 [node name="Trash" parent="Kitchen" unique_id=984570164 instance=ExtResource("10_rf8h8")]
+z_index = -1
 position = Vector2(570, 1000)
 
 [node name="Clock" parent="Kitchen" unique_id=929385323 instance=ExtResource("11_nc8pb")]
 position = Vector2(200, 200)
-script = ExtResource("12_n1s4m")
 
 [node name="Counter" type="SubViewport" parent="." unique_id=1365535634]
 canvas_item_default_texture_filter = 0
@@ -242,10 +272,39 @@ one_way_collision_margin = 5.0
 [node name="Costumer" parent="Counter" unique_id=584681569 instance=ExtResource("7_lx47b")]
 position = Vector2(576, 600)
 
+[node name="DialogueManager" parent="Counter" unique_id=366278506 instance=ExtResource("14_c6tu0")]
+offset_left = 50.0
+offset_top = -100.0
+offset_right = -682.0
+offset_bottom = -852.0
+
+[node name="Manual" type="Button" parent="Counter" unique_id=951195078]
+offset_left = 128.0
+offset_top = 900.0
+offset_right = 328.0
+offset_bottom = 1099.9998
+text = "manual"
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1319782278]
 offset_left = 568.0
 offset_right = 584.0
 offset_bottom = 648.0
 
+[node name="Money" type="Label" parent="." unique_id=218319001]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1104.0
+offset_top = 8.0
+offset_right = 1144.0
+offset_bottom = 31.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "$1300.00"
+
+[node name="Manual" parent="." unique_id=1172565628 instance=ExtResource("14_n1s4m")]
+visible = false
+
 [connection signal="child_entered_tree" from="Counter" to="." method="_on_counter_child_entered_tree"]
 [connection signal="child_exiting_tree" from="Counter" to="." method="_on_counter_child_exiting_tree"]
+[connection signal="pressed" from="Counter/Manual" to="." method="_on_manual_pressed"]

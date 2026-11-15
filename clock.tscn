@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://cdu7v7jyxy8s3" path="res://clock.gd" id="2_kig64"]
 
 [node name="Clock" type="Sprite2D" unique_id=929385323]
-visible = false
 scale = Vector2(2, 2)
 texture = ExtResource("1_venu5")
 script = ExtResource("2_kig64")

@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dgluyh11e8bf2"]
+
+[ext_resource type="Script" uid="uid://dorhm40ghrsa0" path="res://dialogue_manager.gd" id="1_iove5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6lpl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iove5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="DialogueManager" type="Control" unique_id=366278506]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -728.0
+offset_bottom = -336.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iove5")
+
+[node name="NextDialogue" type="Button" parent="." unique_id=982486470]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k6lpl")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_k6lpl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iove5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k6lpl")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_k6lpl")

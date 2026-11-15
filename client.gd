@@ -3,8 +3,8 @@ extends Node2D
 var perfect_order : Array[Dictionary] = [{
 	'coffee' = ['normal'],
 	'type' = 'Cup',
-	'extras' = [],
-	'ice' = true
+	'extras' = ['Milk'],
+	'ice' = false
 }]
 @export var pesos : Dictionary[String,int] = {
 	'coffee' = 6,
@@ -26,10 +26,13 @@ func grade(order_delivered : Array[Dictionary]) -> int:
 		
 		var current_delivered_order : Dictionary = order_delivered[perfect_order.find(current_perfect_order)]
 		#coffee
-		for type in current_perfect_order['coffee']:
+		if current_perfect_order['coffee'].size() == current_delivered_order['coffee'].size():
+			for type in current_perfect_order['coffee']:
+				max_points += pesos['coffee']
+				if type in current_delivered_order['coffee']:
+					points += pesos['coffee']
+		else:
 			max_points += pesos['coffee']
-			if type in current_delivered_order['coffee']:
-				points += pesos['coffee']
 
 		#extras
 		for extra in current_perfect_order['extras']:

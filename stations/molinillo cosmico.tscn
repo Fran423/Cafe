@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0i1ykdu8755a"]
 
-[ext_resource type="Script" uid="uid://dgtkt0xvurysp" path="res://stations/molinillo.gd" id="1_eey3b"]
+[ext_resource type="Script" uid="uid://bix7h3j1vya74" path="res://stations/molinillo cosmico.gd" id="1_eey3b"]
 
 [node name="MolinilloCosmico" type="Node2D" unique_id=188922893]
 z_index = -1

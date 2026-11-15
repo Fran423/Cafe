@@ -27,8 +27,11 @@ func change_pos(pos):
 
 func place(object):
 	if object.name == 'Hielo':
-		if !coffee['extras'].has('ice'):
-			coffee['extras'].append('ice')
+		if !coffee['ice']:
+			get_tree().current_scene.notifier(str(object.price),-1,global_position,'Kitchen')
+			coffee['ice'] = true
+		else:
+			get_tree().current_scene.notifier('Already has ice!',0,global_position,'Kitchen')
 		object.return_to_og_location()
 
 func failsafe():

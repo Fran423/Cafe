@@ -1,0 +1,161 @@
+[gd_scene format=3 uid="uid://c3ubhrw5gq7lx"]
+
+[ext_resource type="Script" uid="uid://h0mn5h2gvs2k" path="res://manual.gd" id="1_xba3u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xba3u"]
+
+[sub_resource type="Animation" id="Animation_xba3u"]
+resource_name = "Appear"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jl51j"]
+_data = {
+&"Appear": SubResource("Animation_xba3u")
+}
+
+[node name="Manual" type="Control" unique_id=1172565628]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xba3u")
+
+[node name="Blocker" type="ColorRect" parent="." unique_id=54231951]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.60784316)
+
+[node name="CloseTracker" type="Button" parent="." unique_id=1754445341]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xba3u")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xba3u")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xba3u")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xba3u")
+
+[node name="LeftPage" type="ColorRect" parent="." unique_id=2014615763]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 64.0
+offset_right = 560.0
+offset_bottom = 576.0
+
+[node name="RightPage" type="ColorRect" parent="." unique_id=1946248871]
+layout_mode = 0
+offset_left = 592.0
+offset_top = 64.0
+offset_right = 1024.0
+offset_bottom = 576.0
+
+[node name="TabBar" type="TabBar" parent="." unique_id=331780641]
+layout_mode = 0
+offset_left = 592.0
+offset_top = 24.0
+offset_right = 1024.0
+offset_bottom = 64.0
+current_tab = 0
+tab_alignment = 2
+tab_count = 2
+tab_0/title = "Controls"
+tab_1/title = "Letter"
+
+[node name="Controls" type="Control" parent="TabBar" unique_id=1138806932]
+anchors_preset = 0
+offset_left = -464.0
+offset_top = 40.0
+offset_right = 432.0
+offset_bottom = 552.0
+
+[node name="LeftPage" type="VBoxContainer" parent="TabBar/Controls" unique_id=5689121]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 408.0
+offset_bottom = 488.0
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabBar/Controls/LeftPage" unique_id=1816630150]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="TabBar/Controls/LeftPage" unique_id=1667894769]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="TabBar/Controls/LeftPage" unique_id=1452210931]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="RightPage" type="VBoxContainer" parent="TabBar/Controls" unique_id=1494911705]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 24.0
+offset_right = 872.0
+offset_bottom = 488.0
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabBar/Controls/RightPage" unique_id=884265317]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="TabBar/Controls/RightPage" unique_id=656406515]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="TabBar/Controls/RightPage" unique_id=1058630318]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+scroll_active = false
+vertical_alignment = 1
+
+[node name="NextPage" type="Button" parent="." unique_id=1326777886]
+visible = false
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 576.0
+theme_override_font_sizes/font_size = 32
+text = ">"
+
+[node name="LastPage" type="Button" parent="." unique_id=1857226594]
+visible = false
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 128.0
+offset_bottom = 576.0
+theme_override_font_sizes/font_size = 32
+text = "<"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=854560564]
+libraries/ = SubResource("AnimationLibrary_jl51j")
+
+[connection signal="pressed" from="CloseTracker" to="." method="_on_close_tracker_pressed"]
+[connection signal="pressed" from="NextPage" to="." method="next_page"]
+[connection signal="pressed" from="LastPage" to="." method="last_page"]

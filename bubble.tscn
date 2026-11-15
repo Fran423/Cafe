@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://dnvvkx4suov8y"]
+
+[ext_resource type="Script" uid="uid://cnuppfqx2n6ww" path="res://bubble.gd" id="1_n2mqj"]
+[ext_resource type="AudioStream" uid="uid://c4bxil631ty0p" path="res://sfx/JDSherbert - Pixel UI SFX Pack (FREE)/Mono/ogg/JDSherbert - Pixel UI SFX Pack - Cursor 1 (Square).ogg" id="2_y2db8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj10t"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 5
+border_color = Color(0.60784316, 0.8980392, 0.9098039, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4a276"]
+random_pitch = 1.0293022
+streams_count = 1
+stream_0/stream = ExtResource("2_y2db8")
+
+[sub_resource type="Animation" id="Animation_y2db8"]
+resource_name = "Bounce"
+length = 0.8
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0, 0, 1, -0.9, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.8)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0, 0, 1, -0.9, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.8)
+}
+
+[sub_resource type="Animation" id="Animation_4a276"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Text:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Text:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_05jx6"]
+_data = {
+&"Bounce": SubResource("Animation_y2db8"),
+&"RESET": SubResource("Animation_4a276")
+}
+
+[node name="Bubble" type="Control" unique_id=275061554]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_n2mqj")
+
+[node name="Text" type="RichTextLabel" parent="." unique_id=1968327934]
+layout_mode = 0
+offset_right = 394.35596
+offset_bottom = 26.862915
+scale = Vector2(1e-05, 1e-05)
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_rj10t")
+bbcode_enabled = true
+fit_content = true
+visible_characters = 0
+visible_characters_behavior = 2
+visible_ratio = 0.0
+
+[node name="DialogueSFX" type="AudioStreamPlayer" parent="." unique_id=2036580731]
+stream = SubResource("AudioStreamRandomizer_4a276")
+pitch_scale = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1764342429]
+libraries/ = SubResource("AnimationLibrary_05jx6")
+autoplay = &"Bounce"
+
+[node name="Lifetime" type="Timer" parent="." unique_id=555839610]
+wait_time = 5.0
+one_shot = true
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1322532747]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

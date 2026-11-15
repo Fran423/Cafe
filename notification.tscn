@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://d2so5cfrqepcj"]
+
+[sub_resource type="GDScript" id="GDScript_gk8rk"]
+script/source = "extends Label
+
+@export var added_position : Vector2
+@onready var og_pos : Vector2 = global_position
+func _process(_delta: float) -> void:
+	global_position = og_pos + added_position - Vector2(size/2)
+
+func cobrar(price):
+	text = str('-$',\"%.2f\"%price)
+"
+
+[sub_resource type="Animation" id="Animation_gk8rk"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:added_position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_db016"]
+resource_name = "notify"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:added_position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0, 0, -50, -0.7, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 2),
+"points": PackedFloat32Array(1, 0, 0, 0.16666667, -0.16666667, 0, -0.7, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pfrp7"]
+_data = {
+&"RESET": SubResource("Animation_gk8rk"),
+&"notify": SubResource("Animation_db016")
+}
+
+[node name="Notification" type="Label" unique_id=698904860]
+z_index = 2
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "-2$"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_gk8rk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1757861052]
+libraries/ = SubResource("AnimationLibrary_pfrp7")
+autoplay = &"notify"

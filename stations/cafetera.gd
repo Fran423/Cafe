@@ -14,6 +14,10 @@ func place(object):
 	if object.name == 'Cazo':
 		if items['cazo'] == null:
 			object.global_position = $CazoMarca.global_position
+			if object.coffee in [null,'']:
+				get_tree().current_scene.notifier('Filter is empty!',0,global_position,'Kitchen')
+				object.return_to_og_location()
+				return
 			items['cazo'] = object
 			object.get_node('DraggingComponent').connect('grabbed',cazo_retirado)
 		else:
@@ -50,4 +54,8 @@ func fill_cup(cup):
 			items['envase'].get_node('DraggingComponent').draggable = true
 			items['cazo'].return_to_og_location()
 			items['cazo'].coffee = ''
+			cazo_retirado()
+		else:
+			get_tree().current_scene.notifier('Already filled with that coffee!',0,global_position,'Kitchen')
+			items['cazo'].return_to_og_location()
 			cazo_retirado()

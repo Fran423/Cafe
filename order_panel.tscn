@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://bfu0pr0jo3vf2"]
+
+[ext_resource type="Texture2D" uid="uid://d3eynes3pa4da" path="res://hint.png" id="1_1vep7"]
+[ext_resource type="Shader" uid="uid://cyt5ddinxs7a0" path="res://order_panel.gdshader" id="1_fdygh"]
+[ext_resource type="Script" uid="uid://cvohgcp77k7vx" path="res://order_panel.gd" id="1_g7ytl"]
+[ext_resource type="Texture2D" uid="uid://c2or525b0dktm" path="res://icon.svg" id="2_jgalc"]
+[ext_resource type="Script" uid="uid://cv7pbtjb12dxc" path="res://item_list.gd" id="2_qbs56"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbs56"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fdygh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgalc"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.6, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fdygh"]
+bg_color = Color(1, 0.6, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jgalc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qbs56"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jgalc"]
+shader = ExtResource("1_fdygh")
+shader_parameter/curvature = 0.090000004275
+shader_parameter/corner_radius = 0.06
+shader_parameter/border_color = Color(0, 0, 0, 1)
+shader_parameter/scanlines = 0.878000041705
+shader_parameter/scanline_size = 3.9330000918175
+shader_parameter/vignette = 0.35
+shader_parameter/brightness = 1.5400000494
+shader_parameter/rgb_mask = false
+shader_parameter/mask_strength = 0.3
+
+[node name="OrderPanel" type="Control" unique_id=1282428157]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g7ytl")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=498286758]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 64.0
+offset_right = 896.0
+offset_bottom = 576.0
+
+[node name="Button" type="Button" parent="Fondo" unique_id=1012579899]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 520.0
+offset_right = 608.0
+offset_bottom = 568.0
+disabled = true
+text = "Select an order to proceed"
+
+[node name="ItemList" type="ItemList" parent="Fondo" unique_id=1093783841]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 512.0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hovered_color = Color(0, 0, 0, 1)
+theme_override_colors/scroll_hint_color = Color(1, 0.6, 0, 1)
+theme_override_constants/v_separation = 56
+theme_override_constants/icon_margin = 3
+theme_override_icons/scroll_hint = ExtResource("1_1vep7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qbs56")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fdygh")
+theme_override_styles/hovered = SubResource("StyleBoxFlat_jgalc")
+theme_override_styles/hovered_selected = SubResource("StyleBoxFlat_fdygh")
+theme_override_styles/hovered_selected_focus = SubResource("StyleBoxFlat_fdygh")
+theme_override_styles/selected = SubResource("StyleBoxFlat_fdygh")
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_fdygh")
+theme_override_styles/cursor_unfocused = SubResource("StyleBoxEmpty_jgalc")
+theme_override_styles/cursor = SubResource("StyleBoxEmpty_qbs56")
+select_mode = 2
+auto_width = true
+text_overrun_behavior = 4
+scroll_hint_mode = 1
+tile_scroll_hint = true
+item_count = 10
+max_columns = 3
+same_column_width = true
+fixed_column_width = 209
+icon_mode = 0
+item_0/text = "Croissant"
+item_0/icon = ExtResource("2_jgalc")
+item_1/text = "Ensaimada"
+item_1/icon = ExtResource("2_jgalc")
+item_2/text = "Empanada"
+item_2/icon = ExtResource("2_jgalc")
+item_3/text = "Empanadilla"
+item_3/icon = ExtResource("2_jgalc")
+item_4/text = "Napolitana"
+item_4/icon = ExtResource("2_jgalc")
+item_5/icon = ExtResource("2_jgalc")
+item_6/icon = ExtResource("2_jgalc")
+item_7/icon = ExtResource("2_jgalc")
+item_8/icon = ExtResource("2_jgalc")
+item_9/icon = ExtResource("2_jgalc")
+script = ExtResource("2_qbs56")
+
+[node name="ColorRect" type="ColorRect" parent="Fondo/ItemList" unique_id=1036568048]
+material = SubResource("ShaderMaterial_jgalc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="multi_selected" from="Fondo/ItemList" to="." method="_on_item_list_multi_selected"]
