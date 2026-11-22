@@ -39,3 +39,6 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_k6lpl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_iove5")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_k6lpl")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_k6lpl")
+disabled = true
+
+[connection signal="pressed" from="NextDialogue" to="." method="next_dialogue"]

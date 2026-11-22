@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dm4p2kch70sxs"
+path="res://.godot/imported/flip page.mp3-eced91b8ce163b463acaf827629ea2ea.mp3str"
+
+[deps]
+
+source_file="res://sfx/flip page.mp3"
+dest_files=["res://.godot/imported/flip page.mp3-eced91b8ce163b463acaf827629ea2ea.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

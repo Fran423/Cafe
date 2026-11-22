@@ -43,7 +43,6 @@ func update_area():
 func _ready() -> void:
 	$Label.text = coffee['type']
 	dragging_component.original_location = original_pos
-	
 func return_to_og_location():
 	if viewport == get_tree().current_scene.counter_texture:
 		falling = true

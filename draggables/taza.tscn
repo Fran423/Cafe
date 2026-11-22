@@ -10,6 +10,7 @@ size = Vector2(80, 128)
 
 [node name="Taza" type="CharacterBody2D" unique_id=529097215 groups=["Envases"]]
 modulate = Color(0, 1, 1, 1)
+collision_layer = 0
 script = ExtResource("1_maad6")
 
 [node name="DraggingComponent" parent="." unique_id=1093383295 node_paths=PackedStringArray("parent", "sprite", "drag_area_polygon") instance=ExtResource("2_kj6ig")]

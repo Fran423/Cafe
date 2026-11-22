@@ -25,12 +25,14 @@ func _ready() -> void:
 		drag_area.append(point)
 
 func _process(delta: float) -> void:
-	if is_dragged:
+	if Main.object_dragged == self:
 		drag(delta)
 
 func drag(delta):
-	parent.global_position = get_global_mouse_position()
+	if Main.object_dragged == self:
+		parent.global_position = get_global_mouse_position()
 func release(pos):
+	Main.object_dragged = null
 	if buyable:
 		if get_global_mouse_position().x < 576:
 			current_viewport = get_tree().current_scene.kitchen_texture
@@ -53,18 +55,20 @@ func release(pos):
 
 
 func begin_drag():
-	grabbed.emit()
-	if buyable:
-		parent.reparent(get_tree().current_scene,true)
-		parent.scale = current_viewport.size / Vector2(
-			get_tree().current_scene.get_node(current_viewport.texture.viewport_path).size
-		)
-	var tween = create_tween()
-	tween.tween_property(sprite,'scale',Vector2(1.2,1.2),0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if Main.object_dragged == null:
+		Main.object_dragged = self
+		grabbed.emit()
+		if buyable:
+			parent.reparent(get_tree().current_scene,true)
+			parent.scale = current_viewport.size / Vector2(
+				get_tree().current_scene.get_node(current_viewport.texture.viewport_path).size
+			)
+		var tween = create_tween()
+		tween.tween_property(sprite,'scale',Vector2(1.2,1.2),0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.pressed and !is_dragged and draggable:
+		if event.pressed and !is_dragged and draggable and Main.object_dragged == null:
 			var new_drag_area : PackedVector2Array
 			for point in drag_area:
 				new_drag_area.append(to_global(point))
@@ -72,6 +76,6 @@ func _input(event: InputEvent) -> void:
 				begin_drag()
 				is_dragged = true
 			
-		if event.is_released() and is_dragged:
+		if event.is_released() and is_dragged and Main.object_dragged == self:
 			is_dragged = false
 			release(event.position)

@@ -2,6 +2,12 @@
 
 [ext_resource type="Texture2D" uid="uid://ycaeiwdfvlou" path="res://clock.png" id="1_venu5"]
 [ext_resource type="Script" uid="uid://cdu7v7jyxy8s3" path="res://clock.gd" id="2_kig64"]
+[ext_resource type="AudioStream" uid="uid://dpgormoks4eam" path="res://sfx/tick.mp3" id="3_4n1wf"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cqx04"]
+random_pitch = 1.0594631
+streams_count = 1
+stream_0/stream = ExtResource("3_4n1wf")
 
 [node name="Clock" type="Sprite2D" unique_id=929385323]
 scale = Vector2(2, 2)
@@ -28,3 +34,7 @@ offset_bottom = 113.0
 theme_override_font_sizes/font_size = 32
 text = "12:00"
 horizontal_alignment = 1
+
+[node name="Ticking" type="AudioStreamPlayer" parent="." unique_id=1652169960]
+stream = SubResource("AudioStreamRandomizer_cqx04")
+volume_db = -5.0

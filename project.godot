@@ -39,6 +39,8 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 
 Envases=""
 Extras=""
+Buyables=""
+Credentials=""
 
 [physics]
 

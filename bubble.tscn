@@ -1,7 +1,10 @@
-[gd_scene format=3 uid="uid://dnvvkx4suov8y"]
+[gd_scene format=4 uid="uid://dnvvkx4suov8y"]
 
 [ext_resource type="Script" uid="uid://cnuppfqx2n6ww" path="res://bubble.gd" id="1_n2mqj"]
-[ext_resource type="AudioStream" uid="uid://c4bxil631ty0p" path="res://sfx/JDSherbert - Pixel UI SFX Pack (FREE)/Mono/ogg/JDSherbert - Pixel UI SFX Pack - Cursor 1 (Square).ogg" id="2_y2db8"]
+[ext_resource type="AudioStream" uid="uid://dbppi7uqtpkrw" path="res://sfx/Voice/Sol/variacion-02.mp3" id="3_cd3a8"]
+[ext_resource type="AudioStream" uid="uid://d1ja5s221ujyj" path="res://sfx/Voice/Sol/variacion-03.mp3" id="4_gr152"]
+[ext_resource type="AudioStream" uid="uid://bxipnkigq66tb" path="res://sfx/Voice/Sol/variacion-04.mp3" id="5_7anfy"]
+[ext_resource type="AudioStream" uid="uid://bipbrku8ce1j7" path="res://sfx/Voice/Sol/variacion-06.mp3" id="7_te3ye"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj10t"]
 bg_color = Color(1, 1, 1, 1)
@@ -16,10 +19,16 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 5
 
+[sub_resource type="AudioStreamMP3" id="AudioStreamMP3_4cx2n"]
+data = PackedByteArray("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")
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4a276"]
-random_pitch = 1.0293022
-streams_count = 1
-stream_0/stream = ExtResource("2_y2db8")
+streams_count = 5
+stream_0/stream = SubResource("AudioStreamMP3_4cx2n")
+stream_1/stream = ExtResource("3_cd3a8")
+stream_2/stream = ExtResource("4_gr152")
+stream_3/stream = ExtResource("5_7anfy")
+stream_4/stream = ExtResource("7_te3ye")
 
 [sub_resource type="Animation" id="Animation_y2db8"]
 resource_name = "Bounce"
@@ -92,6 +101,10 @@ scale = Vector2(1e-05, 1e-05)
 mouse_filter = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 26
+theme_override_font_sizes/bold_font_size = 26
+theme_override_font_sizes/bold_italics_font_size = 26
+theme_override_font_sizes/italics_font_size = 26
+theme_override_font_sizes/mono_font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_rj10t")
 bbcode_enabled = true
 fit_content = true
@@ -101,7 +114,6 @@ visible_ratio = 0.0
 
 [node name="DialogueSFX" type="AudioStreamPlayer" parent="." unique_id=2036580731]
 stream = SubResource("AudioStreamRandomizer_4a276")
-pitch_scale = 0.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1764342429]
 libraries/ = SubResource("AnimationLibrary_05jx6")

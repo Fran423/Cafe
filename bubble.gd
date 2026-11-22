@@ -2,7 +2,7 @@ extends Control
 
 var talker : int = 1
 var dialogue : String = ''
-var pitch : float = 0.3
+var pitch : float = 0
 @onready var text_node : RichTextLabel = $Text
 signal finished
 

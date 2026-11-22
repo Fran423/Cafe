@@ -18,8 +18,11 @@ func update_clock(time : float): #in seconds
 	if segundero_time_left <= 1:
 		segundero_time_left += 1
 		var segundero_tween = create_tween()
+		$Ticking.play()
 		segundero_tween.tween_property($Segundero,'rotation',deg_to_rad(rotation_segundero),0.5).set_trans(Tween.TRANS_ELASTIC)
 	if minutero_time_left <= 0:
 		minutero_time_left += 60
+		$Ticking.play()
 		var minutero_tween = create_tween()
 		minutero_tween.tween_property($Minutero,'rotation',deg_to_rad(rotation_minutero),0.5).set_trans(Tween.TRANS_ELASTIC)
+	
