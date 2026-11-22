@@ -1,4 +1,4 @@
-This is a project made in Godot for the ysws event Terra by Hack Club.
+This is a project made in Godot for the ysws event Terra by Hack Club. I used Godot 4.6.2, coding in the native language of GDScript
 To run the project, unzip the .zip file and run cafe.exe
 
 controls:
