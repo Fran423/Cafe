@@ -7,5 +7,6 @@ You can grab the filter to put it on either the coffee dispensers (normal coffee
 This project attempts to be a cafe simulator for windows and android, including various new aspects i had never worked on. The powerful drag-and-drop system being the main one.
 
 this is how the project looks right now:
-<img width="1142" height="632" alt="Captura de pantalla 2026-11-15 212441" src="https://github.com/user-attachments/assets/9333e1ff-9ade-4abc-b5bf-8f977e04d35a" />
+<img width="1127" height="557" alt="image" src="https://github.com/user-attachments/assets/dc67e81c-94e7-4cf8-a0a5-7a814fe8f422" />
+
 
